@@ -1,3 +1,23 @@
-from django.shortcuts import render
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-# Create your views here.
+from .models import Events
+from .serializers import EventNeedsSerializer
+
+
+class EventNeedsListCreate(APIView):
+	def get(self, request):
+		roles = Events.objects.all()
+		serializer = EventNeedsSerializer(roles, many=True)
+		return Response(serializer.data)
+
+	def post(self, request):
+		serializer = EventNeedsSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(
+			data=serializer.errors,
+			status=status.HTTP_400_BAD_REQUEST
+		)

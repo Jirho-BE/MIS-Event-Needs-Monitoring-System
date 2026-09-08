@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'department',
     'college',
     'account',
+    'item',
+    'needs',
+    'event_needs',
 ]
 
 MIDDLEWARE = [
