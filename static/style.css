@@ -1,3 +1,106 @@
-.app-box {
-  background-color: gray;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+body {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-box label,
+h1 {
+  color: white;
+}
+
+.auth-box {
+  display: flex;
+  flex-direction: column;
+  border: 3px;
+  border-color: white;
+  border-style: solid;
+  align-self: center;
+  justify-self: center;
+  width: clamp(30vh, 60vh, 70vh);
+  height: clamp(40vh, 70vh, 80vh);
+  border-radius: 20px;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: all 0.5s ease-in;
+}
+
+.auth-box button {
+  width: 50%;
+  height: 10%;
+  background-color: black;
+  border: 3px;
+  border-style: solid;
+  border-color: white;
+  border-radius: 20px;
+  color: white;
+  font-size: clamp(1vh, 2vh, 3vh);
+}
+
+.auth-box button:hover {
+  background-color: white;
+  border-color: grey;
+  color: black;
+  transition: background-color 0.5s;
+  cursor: pointer;
+}
+
+.auth-box button:active {
+  background-color: white;
+  border-color: white;
+  color: black;
+}
+
+.auth-box a {
+  color: white;
+}
+
+.auth-box a:hover {
+  cursor: pointer;
+}
+
+.auth-input-fields {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  gap: 1vh;
+}
+
+.auth-input-fields input {
+  height: 5vh;
+  font-size: clamp(1vh, 2vh, 3vh);
+  border-radius: 20px;
+  padding-left: 5%;
+}
+
+.auth-input-fields label {
+  margin-left: 5%;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  70% {
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pop-effect {
+  animation: popIn 0.25s;
 }

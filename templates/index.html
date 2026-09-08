@@ -10,7 +10,36 @@
   </head>
   <body>
     <div id="app" class="app-box">
-      <label>[[ text ]]</label>
+      <div v-if="!authenticated" class="authenticate">
+        <!-- FOR LOGGING IN (DEFAULT) -->
+        <div v-if="reg_or_log" class="auth-box pop-effect">
+          <h1>Login</h1>
+          <div class="auth-input-fields"><input /><label>Username:</label></div>
+          <div class="auth-input-fields">
+            <input type="password" />
+            <label>Password:</label>
+          </div>
+          <button>Log In</button>
+          <a @click="reg_or_log = !reg_or_log">Register Instead?</a>
+        </div>
+        <!-- FOR REGISTERING -->
+        <div v-else class="auth-box pop-effect">
+          <h1>Register</h1>
+          <div class="auth-input-fields"><input /><label>Username:</label></div>
+          <div class="auth-input-fields">
+            <input type="password" />
+            <label>Password:</label>
+          </div>
+          <div class="auth-input-fields">
+            <input type="password" />
+            <label>Re-type password:</label>
+          </div>
+          <button>Create Account</button>
+          <a @click="reg_or_log = !reg_or_log">Login Instead?</a>
+        </div>
+      </div>
+
+      <div v-else></div>
     </div>
 
     <script src="{% static '/app.js' %}"></script>
