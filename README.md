@@ -1,13 +1,13 @@
 # Note* **The system is still in development phase**
 
-# MIS EVENT NEEDS MONITORING SYSTEM
+## MIS EVENT NEEDS MONITORING SYSTEM
 
 Members:
 - Enciso Jirho
 - Christian Gabriel Pagulayan
 - Maniago Raiyyan
 
-# Entity Relationship(ER) Diagram
+## Entity Relationship(ER) Diagram
 ---
 <img width="779" height="912" alt="ERdiagram" src="https://github.com/user-attachments/assets/de32a3e8-df0b-4e19-b064-46f5073ee045" />
 ---
@@ -20,6 +20,7 @@ This monitoring system is intended to help systematically manage and view upcomi
 - [Python 3.12+](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/)
 - [PostgreSQL](https://www.postgresql.org/)
+- [pgAdmin](https://www.pgadmin.org/)
 
 ### Installation & Setup
 
@@ -72,7 +73,7 @@ python manage.py migrate
    ```bash
    python manage.py runserver
    ```
-### Paste onto a browser of choice
+### Paste onto a browser of choice (any link)
 ```url
 http://localhost:8000/api/events/
 http://localhost:8000/api/organization/
