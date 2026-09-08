@@ -49,8 +49,8 @@ This monitoring system is intended to help systematically manage and view upcomi
 
 ### Database Setup and Migrations
 
-1. Open pgAdmin, create a database "mis_monitoring."
-2. Go to server folder inside the cloned repo.
+1. Open pgAdmin, create a database "mis_monitoring"
+2. Go to server folder inside the cloned repo
 3. Edit settings.py
 ```python
 DATABASES = {
