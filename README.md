@@ -21,6 +21,7 @@ Members:
 **you can see the provided links on the very bottom to check how to access each via URL, the new features were tested using Hoppscotch**
 
 ## Documentations:
+
 <table align="center">
   <tr>
     <td><img width="100%" alt="acc1" src="https://github.com/user-attachments/assets/8b152bbf-d393-414a-8dbd-675ba8ab11f9" /></td>
@@ -31,11 +32,6 @@ Members:
     <td><img width="100%" alt="acc4" src="https://github.com/user-attachments/assets/30e74650-2f71-4258-8a68-14f30935d3ee" /></td>
     <td><img width="100%" alt="acc5" src="https://github.com/user-attachments/assets/eff3e429-67c7-46f1-a1db-bbc94fa35732" /></td>
     <td><img width="100%" alt="acc6" src="https://github.com/user-attachments/assets/d26a40c4-ce57-4efc-9429-0c52dc1f9b50" /></td>
-  </tr>
-  <tr>
-    <td><!-- Slot 7 --></td>
-    <td><!-- Slot 8 --></td>
-    <td><!-- Slot 9 --></td>
   </tr>
 </table>
 
