@@ -10,7 +10,11 @@ class AccountSerializer(serializers.ModelSerializer):
 		extra_kwargs = {
 			'password': {
 				'write_only': True
-			}
+			},
+			'org_id': {
+				'required': False,'allow_null': True
+			},
+			'last_name': {'required': False, 'allow_blank': True}
 		}
 
 	def create(self, validated_data):

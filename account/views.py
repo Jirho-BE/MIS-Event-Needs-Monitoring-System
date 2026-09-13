@@ -1,11 +1,11 @@
 from django.contrib.auth import authenticate
-from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework import status, viewsets
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from account.permissions import IsAdmin, IsOwnerOrAdmin
 from account.models import Accounts
 from account.serializers import AccountSerializer
 
@@ -42,55 +42,18 @@ class AccountLogin(APIView):
 		)
 
 
-class AccountRegister(APIView):
-	permission_classes = [AllowAny]
+class AccountViewSet(viewsets.ModelViewSet):
+	queryset = Accounts.objects.all()
+	serializer_class = AccountSerializer
+	lookup_field = 'username'
+	def get_permissions(self):
+		if self.action == 'create':
+			permission_classes = [AllowAny]
+		elif self.action in ['list', 'destroy']:
+			permission_classes = [IsAdmin]
+		elif self.action in ['retrieve', 'update', 'partial_update']:
+			permission_classes = [IsOwnerOrAdmin]
+		else:
+			permission_classes = [IsAuthenticated]
 
-	def post(self, request):
-		serializer = AccountSerializer(data=request.data)
-
-		if serializer.is_valid():
-			serializer.save()
-			return Response(data=serializer.data, status=HTTP_201_CREATED)
-		return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AccountList(APIView):
-	def get(self, request):
-		accounts = Accounts.objects.all()
-		serializer = AccountSerializer(accounts, many=True)
-		return Response(serializer.data)
-
-
-class AccountDetail(APIView):
-	def get(self, request, pk):
-		try:
-			account = Accounts.objects.get(pk=pk)
-		except Accounts.DoesNotExist:
-			return Response(data={'message': 'Account does not exist.'}, status=status.HTTP_404_NOT_FOUND)
-
-		serializer = AccountSerializer(account)
-		return Response(serializer.data)
-
-
-class AccountUpdate(APIView):
-	def put(self, request, pk):
-		try:
-			account = Accounts.objects.get(pk=pk)
-		except Accounts.DoesNotExist:
-			return Response(data={'message': 'Account does not exist.'}, status=status.HTTP_404_NOT_FOUND)
-
-		serializer = AccountSerializer(instance=account, data=request.data)
-		if serializer.is_valid():
-			serializer.save()
-			return Response(data=serializer.data)
-		return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AccountDelete(APIView):
-	def delete(self, request, pk):
-		try:
-			account = Accounts.objects.get(pk=pk)
-		except Accounts.DoesNotExist:
-			return Response(data={'message': 'Account does not exist.'}, status=status.HTTP_404_NOT_FOUND)
-		account.delete()
-		return Response(data={'message': 'Account deleted.'}, status=status.HTTP_204_NO_CONTENT)
+		return [permission() for permission in permission_classes]
