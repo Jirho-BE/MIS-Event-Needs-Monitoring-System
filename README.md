@@ -16,7 +16,7 @@ Members:
 
 - any user can regiter(create an account)
 - list or delete users (via admin only)
-- retrieve specific info, update/partial_update(update needs full info while partial update only update a specific value)
+- retrieve specific info, update/partial_update(update needs full info while partial update only updates a specific value)(via admin/owner only)
 
 **you can see the provided links on the very bottom to check how to access each via URL, the new features were tested using Hoppscotch**
 
