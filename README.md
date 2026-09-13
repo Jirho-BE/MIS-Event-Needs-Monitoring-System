@@ -17,7 +17,8 @@ Members:
 - any user can regiter(create an account)
 - list or delete users (via admin only)
 - retrieve specific info, update/partial_update(update needs full info while partial update only update a specific value)
-  **you can see the provided links on the very bottom to check how to access each via URL, the new features was tested using Hoppscotch**
+
+**you can see the provided links on the very bottom to check how to access each via URL, the new features was tested using Hoppscotch**
 
 ## Entity Relationship(ER) Diagram
 
