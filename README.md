@@ -1,19 +1,32 @@
-# Note* **The system is still in development phase**
+# Note\* **The system is still in development phase**
+
 # **You can view the development branch to see upcoming features**
 
 ## MIS EVENT NEEDS MONITORING SYSTEM
 
 Members:
+
 - Enciso Jirho
 - Christian Gabriel Pagulayan
 - Maniago Raiyyan
 
+## NEW FEATURES ADDED
+
+**The API can now allow or disallow users to access information:**
+
+- any user can regiter(create an account)
+- list or delete users (via admin only)
+- retrieve specific info, update/partial_update(update needs full info while partial update only update a specific value)
+  **you can see the provided links on the very bottom to check how to access each via URL, the new features was tested using Hoppscotch**
+
 ## Entity Relationship(ER) Diagram
----
-<img width="779" height="912" alt="ERdiagram" src="https://github.com/user-attachments/assets/de32a3e8-df0b-4e19-b064-46f5073ee045" />
+
 ---
 
+## <img width="779" height="912" alt="ERdiagram" src="https://github.com/user-attachments/assets/de32a3e8-df0b-4e19-b064-46f5073ee045" />
+
 ## Overview
+
 This monitoring system is intended to help systematically manage and view upcoming or passed events for the MIS Office.
 
 ### Prerequisites
@@ -26,6 +39,7 @@ This monitoring system is intended to help systematically manage and view upcomi
 ### Installation & Setup
 
 1. **Clone the Repository**
+
    ```bash
    git clone https://github.com/Jirho-BE/MIS-Event-Needs-Monitoring-System.git
    cd MIS-Event-Needs-Monitoring-System
@@ -53,6 +67,7 @@ This monitoring system is intended to help systematically manage and view upcomi
 1. Open pgAdmin, create a database "mis_monitoring"
 2. Go to server folder inside the cloned repo
 3. Edit settings.py
+
 ```python
 DATABASES = {
     'default': {
@@ -65,17 +80,23 @@ DATABASES = {
 	}
 }
 ```
+
 4. Now make migrations then migrate
+
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
+
 ### Running the server
-   ```bash
-   python manage.py runserver
-   ```
+
+```bash
+python manage.py runserver
+```
+
 ### Paste onto a browser of choice (any link)
-```url
+
+```python
 http://localhost:8000/api/events/
 http://localhost:8000/api/organization/
 http://localhost:8000/api/department/
@@ -84,7 +105,11 @@ http://localhost:8000/api/items/
 http://localhost:8000/api/needs/
 http://localhost:8000/api/event-needs/
 
-http://localhost:8000/api/accounts/
 http://localhost:8000/api/login/
 http://localhost:8000/api/register/
+http://localhost:8000/api/account-lists/
+http://localhost:8000/api/profile/username/
+http://localhost:8000/api/profile/edit/username/
+http://localhost:8000/api/profile/edit-field/username/
+http://localhost:8000/api/profile/delete/username/
 ```
