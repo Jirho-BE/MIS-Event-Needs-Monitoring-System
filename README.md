@@ -20,7 +20,8 @@ Members:
 - any user can get the list of college, organization, department, and item but only the admin can create
 
 **you can see the provided links on the very bottom to check how to access each via URL, the new features were tested using Hoppscotch**
-**Note: Update and Delete(together with events, event_needs, and needs)features: In progress.**
+
+### Note: Update and Delete(together with events, event_needs, and needs)features: In progress.
 
 ## Documentations:
 
