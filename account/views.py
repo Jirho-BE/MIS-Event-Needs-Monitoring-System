@@ -55,5 +55,4 @@ class AccountViewSet(viewsets.ModelViewSet):
 			permission_classes = [IsOwnerOrAdmin]
 		else:
 			permission_classes = [IsAuthenticated]
-
 		return [permission() for permission in permission_classes]
