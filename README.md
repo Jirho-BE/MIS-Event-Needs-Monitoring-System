@@ -17,8 +17,10 @@ Members:
 - any user can regiter(create an account)
 - list or delete users (via admin only)
 - retrieve specific info, update/partial_update(update needs full info while partial update only updates a specific value)(via admin/owner only)
+- any user can get the list of college, organization, department, and item but only the admin can create
 
 **you can see the provided links on the very bottom to check how to access each via URL, the new features were tested using Hoppscotch**
+**Note: Update and Delete(together with events, event_needs, and needs)features: In progress.**
 
 ## Documentations:
 
@@ -112,14 +114,22 @@ python manage.py runserver
 
 ### Paste onto a browser of choice (any link)
 
-```python
+```url
 http://localhost:8000/api/events/
-http://localhost:8000/api/organization/
-http://localhost:8000/api/department/
-http://localhost:8000/api/college/
-http://localhost:8000/api/items/
 http://localhost:8000/api/needs/
 http://localhost:8000/api/event-needs/
+
+http://localhost:8000/api/organization-list/
+http://localhost:8000/api/organization-create/
+
+http://localhost:8000/api/department-list/
+http://localhost:8000/api/department-create/
+
+http://localhost:8000/api/college-list/
+http://localhost:8000/api/college-create/
+
+http://localhost:8000/api/items-list/
+http://localhost:8000/api/items-create/
 
 http://localhost:8000/api/login/
 http://localhost:8000/api/register/

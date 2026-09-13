@@ -1,7 +1,8 @@
 from django.urls import path
 
-from .views import DepartmentListCreate
+from .views import *
 
 urlpatterns = [
-	path('department/', DepartmentListCreate.as_view())
+	path('department-list/', DepartmentList.as_view()),
+    path('department-create/', DepartmentCreate.as_view())
 ]

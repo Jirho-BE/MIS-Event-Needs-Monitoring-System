@@ -1,7 +1,8 @@
 from django.urls import path
 
-from .views import CollegeListCreate
+from .views import *
 
 urlpatterns = [
-	path('college/', CollegeListCreate.as_view())
+	path('college-create/', CollegeCreate.as_view()),
+    path('college-list/', CollegeList.as_view())
 ]
