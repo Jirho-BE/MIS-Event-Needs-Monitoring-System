@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -7,21 +7,16 @@ from .models import Organization
 from .serializers import OrganizationSerializer
 
 
-class OrganizationList(APIView):
-	permission_classes = [AllowAny]
-	def get(self, request):
-		roles = Organization.objects.all()
-		serializer = OrganizationSerializer(roles, many=True)
-		return Response(serializer.data)
-
-class OrganizationCreate(APIView):
-	permission_classes = [IsAdmin]
-	def post(self, request):
-		serializer = OrganizationSerializer(data=request.data)	
-		if serializer.is_valid():
-			serializer.save()
-			return Response(serializer.data)
-		return Response(
-			data=serializer.errors,
-			status=status.HTTP_400_BAD_REQUEST
-		)
+class OrganizationViewSet(viewsets.ModelViewSet):
+	queryset = Organization.objects.all()
+	serializer_class = OrganizationSerializer
+	def get_permissions(self):
+		if self.action == 'create':
+			permission_classes = [IsAdmin]
+		elif self.action in ['list']:
+			permission_classes = [AllowAny]
+		elif self.action in ['retrieve', 'update', 'partial_update', 'destroy']:
+			permission_classes = [IsAdmin]
+		else:
+			permission_classes = [IsAdmin]
+		return [permission() for permission in permission_classes]

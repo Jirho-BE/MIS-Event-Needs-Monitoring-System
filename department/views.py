@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -7,21 +7,16 @@ from .models import Department
 from .serializers import DepartmentSerializer
 
 
-class DepartmentList(APIView):
-	permission_classes = [AllowAny]
-	def get(self, request):
-		roles = Department.objects.all()
-		serializer = DepartmentSerializer(roles, many=True)
-		return Response(serializer.data)
-
-class DepartmentCreate(APIView):
-	permission_classes = [IsAdmin]
-	def post(self, request):
-		serializer = DepartmentSerializer(data=request.data)	
-		if serializer.is_valid():
-			serializer.save()
-			return Response(serializer.data)
-		return Response(
-			data=serializer.errors,
-			status=status.HTTP_400_BAD_REQUEST
-		)
+class DepartmentViewSet(viewsets.ModelViewSet):
+	queryset = Department.objects.all()
+	serializer_class = DepartmentSerializer
+	def get_permissions(self):
+		if self.action == 'create':
+			permission_classes = [IsAdmin]
+		elif self.action in ['list']:
+			permission_classes = [AllowAny]
+		elif self.action in ['retrieve', 'update', 'partial_update', 'destroy']:
+			permission_classes = [IsAdmin]
+		else:
+			permission_classes = [IsAdmin]
+		return [permission() for permission in permission_classes]

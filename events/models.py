@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import ForeignKey
 from organization.models import Organization
-# Create your models here.
+from account.models import Accounts
 
 
 class Events(models.Model):
@@ -17,4 +17,9 @@ class Events(models.Model):
 		on_delete=models.SET_NULL,
 		null=True,
 		blank=True
+	)
+
+	owner = models.ForeignKey(
+		Accounts,
+		on_delete=models.SET(1),
 	)

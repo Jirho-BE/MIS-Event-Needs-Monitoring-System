@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import ForeignKey
 
 from item.models import Item
+from account.models import Accounts
 
 
 class Needs(models.Model):
@@ -12,4 +13,8 @@ class Needs(models.Model):
 		on_delete=models.SET_NULL,
 		null=True,
 		blank=True
+	)
+	owner = models.ForeignKey(
+		Accounts,
+		on_delete=models.SET(1),
 	)

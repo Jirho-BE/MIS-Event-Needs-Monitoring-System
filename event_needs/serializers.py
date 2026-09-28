@@ -7,3 +7,4 @@ class EventNeedsSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = EventNeeds
 		fields = '__all__'
+		read_only_fields = ['owner']

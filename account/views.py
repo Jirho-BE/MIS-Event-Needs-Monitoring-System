@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from account.permissions import IsAdmin, IsOwnerOrAdmin
 from account.models import Accounts
 from account.serializers import AccountSerializer
+from rest_framework.exceptions import PermissionDenied
 
 
 class AccountLogin(APIView):
@@ -56,3 +57,8 @@ class AccountViewSet(viewsets.ModelViewSet):
 		else:
 			permission_classes = [IsAuthenticated]
 		return [permission() for permission in permission_classes]
+
+	def perform_destroy(self, instance):
+		if instance.id == 1:
+			raise PermissionDenied("Admin user can never be deleted.")
+		super().perform_destroy(instance)
