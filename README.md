@@ -42,7 +42,8 @@ Members:
 
 ---
 
-## <img width="799" height="902" alt="ER_DIAGRAM_IMG" src="https://github.com/user-attachments/assets/629c0526-40e8-445f-b44d-cf3770839b66" />
+## <img width="799" height="902" alt="ER_DIAGRAM_IMG" src="https://github.com/user-attachments/assets/5985f0b2-f0a4-480b-bf11-9d4273cb2699" />
+
 
 
 ## Overview
