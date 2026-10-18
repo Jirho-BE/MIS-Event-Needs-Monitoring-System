@@ -28,8 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,14 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    'events',
-    'organization',
-    'department',
     'college',
-    'account',
+    'department',
+    'organization',
     'item',
+    'account',
     'needs',
     'event_needs',
+    'events',
 ]
 
 MIDDLEWARE = [
