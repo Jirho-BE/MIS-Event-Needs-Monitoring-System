@@ -187,7 +187,7 @@ async function submitForm() {
       // ---------------------------------------------------------
       // Inside submitForm() -> mode.value === 'login' block
 
-        localStorage.setItem('access_token', data.tokens.access)
+      localStorage.setItem('access_token', data.tokens.access)
       localStorage.setItem('refresh_token', data.tokens.refresh)
 
       currentUser.value = {
@@ -200,7 +200,35 @@ async function submitForm() {
       clearFields()
 
       console.log('Logged in successfully! Tokens saved.')
-        window.location.href = '/admin-dashboard/'
+      const token = localStorage.getItem('access_token')
+
+// If there is no token at all, don't even try to fetch; redirect to login.
+if (!token) {
+  window.location.href = '/'
+} else {
+  try {
+    const userOradmin = await fetch('/api/account-lists/', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+
+    // If the token belongs to an admin, the request succeeds (status 200-299)
+    if (userOradmin.ok) {
+      window.location.href = '/admin-dashboard/'
+    } 
+    // If the token belongs to a normal user, the backend blocks it (status 403)
+    else {
+      window.location.href = '/dashboard/'
+    }
+  } catch (error) {
+    console.error("Network or server error during routing:", error)
+  }
+}
+      
 
     } catch (error) {
       console.error('Login error:', error)

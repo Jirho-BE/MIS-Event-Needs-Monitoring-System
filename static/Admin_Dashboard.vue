@@ -196,7 +196,12 @@ function resetForms() {
 
 watch(selectedItemToEdit, (newId) => {
   if (!newId) return
-  const item = currentEditList.value.find(i => (i.id || i.username) == newId)
+
+  // Account profile endpoints identify records by username, while the other
+  // management endpoints identify records by numeric ID.
+  const item = currentEditList.value.find(i => activeTab.value === 'Account'
+    ? String(i.username || '') === String(newId)
+    : String(i.id ?? i.username ?? '') === String(newId))
   if (!item) return
 
   switch (activeTab.value) {
@@ -215,8 +220,12 @@ watch(selectedItemToEdit, (newId) => {
       accountForm.value.username = item.username
       accountForm.value.firstName = item.first_name
       accountForm.value.lastName = item.last_name
-      accountForm.value.organization = item.org_id || item.organization || ''
-      accountForm.value.password = '' 
+      accountForm.value.organization = item.org_id?.id
+        ?? item.org_id
+        ?? item.organization?.id
+        ?? item.organization
+        ?? ''
+      accountForm.value.password = ''
       break
     case 'Events':
       eventForm.value.title = item.title
@@ -366,14 +375,50 @@ async function editItem() {
   try { await apiFetch(`/api/item-edit/${selectedItemToEdit.value}/`, 'PUT', { name: itemForm.value.name.trim() }); showToast('Item updated!'); resetForms(); fetchAllData(); closeMenuModal() } catch (err) { showToast(err.message, 'error') }
 }
 async function editAccount() {
-  if (!selectedItemToEdit.value) return showToast('Select an account to edit.', 'error')
-  try { 
-    const payload = { username: accountForm.value.username, first_name: accountForm.value.firstName, last_name: accountForm.value.lastName, org_id: accountForm.value.organization }
-    if (accountForm.value.password) payload.password = accountForm.value.password
+  const originalUsername = String(selectedItemToEdit.value || '').trim()
+  if (!originalUsername) return showToast('Select an account to edit.', 'error')
 
-    await apiFetch(`/api/profile/edit/${selectedItemToEdit.value}/`, 'PUT', payload)
-    showToast('Account updated!'); resetForms(); fetchAllData(); closeMenuModal() 
-  } catch (err) { showToast(err.message, 'error') }
+  const firstName = String(accountForm.value.firstName ?? '').trim()
+  const lastName = String(accountForm.value.lastName ?? '').trim()
+  if (!accountForm.value.username?.trim()) {
+    return showToast('The account username is missing. Select the account again.', 'error')
+  }
+
+  try {
+    // The profile endpoints use lookup_field='username', not the account ID.
+    // Use PATCH because password is optional and this form submits only the
+    // fields being edited. Keep the original username in the URL to identify
+    // the existing account during the update.
+    const payload = {
+      username: accountForm.value.username.trim(),
+      first_name: firstName,
+      last_name: lastName
+    }
+
+    // Do not send an empty string for a foreign-key field; DRF may reject it
+    // as an invalid primary key. The UI has no explicit "clear organization" option.
+    const organization = accountForm.value.organization
+    if (organization !== '' && organization !== null && organization !== undefined) {
+      payload.org_id = typeof organization === 'object'
+        ? (organization.id ?? organization.pk ?? null)
+        : organization
+    }
+
+    const password = String(accountForm.value.password || '')
+    if (password) payload.password = password
+
+    await apiFetch(
+      `/api/profile/edit-field/${encodeURIComponent(originalUsername)}/`,
+      'PATCH',
+      payload
+    )
+
+    await fetchAllData()
+    showToast('Account updated successfully.')
+    closeMenuModal()
+  } catch (err) {
+    showToast(err.message || 'Unable to update this account.', 'error')
+  }
 }
 async function editEvent() {
   if (!selectedItemToEdit.value) return showToast('Select an event to edit.', 'error')
@@ -604,7 +649,11 @@ function logout() { localStorage.removeItem('access_token'); localStorage.remove
                 <span>Select [[ activeTab ]] to Edit</span>
                 <select v-model="selectedItemToEdit">
                   <option value="" disabled>-- Select existing [[ activeTab ]] --</option>
-                  <option v-for="opt in currentEditList" :key="opt.id || opt.username" :value="opt.id || opt.username">
+                  <option
+                    v-for="opt in currentEditList"
+                    :key="activeTab === 'Account' ? opt.username : (opt.id || opt.username)"
+                    :value="activeTab === 'Account' ? opt.username : (opt.id || opt.username)"
+                  >
                     [[ opt.name || opt.title || opt.username ]]
                   </option>
                 </select>
