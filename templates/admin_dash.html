@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIS EVENT MONITORING</title>
+    {% load static %}
+
+    <script src="{% static 'vue.global.js' %}"></script>
+    <script src="{% static 'vue3-sfc-loader.js' %}"></script>
+</head>
+<body style="margin: 0; padding: 0; background: #101010;">
+
+    <div id="app"></div>
+
+    <script>
+        
+const { loadModule } = window['vue3-sfc-loader'];
+
+const options = {
+    moduleCache: { vue: Vue },
+
+    async getFile(url) {
+        const res = await fetch(url);
+
+        if (!res.ok) {
+            throw Object.assign(
+                new Error(res.statusText + ' ' + url),
+                { res }
+            );
+        }
+
+        return {
+            getContentData: asBinary =>
+                asBinary ? res.arrayBuffer() : res.text()
+        };
+    },
+
+    addStyle(textContent) {
+        const style = document.createElement('style');
+        style.textContent = textContent;
+        document.head.appendChild(style);
+    },
+
+    // IMPORTANT: top-level option, not compilerOptions
+    delimiters: ['[[', ']]']
+};
+
+const app = Vue.createApp({
+    components: {
+        'auth-app': Vue.defineAsyncComponent(() =>
+            loadModule('{% static "Admin_Dashboard.vue" %}', options)
+        )
+    },
+
+    template: '<auth-app></auth-app>'
+});
+
+// Configure the root app's runtime-compiled template too.
+app.config.compilerOptions.delimiters = ['[[', ']]'];
+
+app.mount('#app');
+    </script>
+
+</body>
+</html>

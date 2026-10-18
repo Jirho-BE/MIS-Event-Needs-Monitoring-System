@@ -1,0 +1,42 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    {% load static %}
+    <script src="{% static 'vue.global.js' %}"></script>
+    <script src="{% static 'vue3-sfc-loader.js' %}"></script>
+</head>
+<body style="margin: 0; padding: 0; background: #101010; color: white; font-family: sans-serif;">
+
+    <div id="app"></div>
+
+    <script>
+        const { loadModule } = window['vue3-sfc-loader'];
+        const options = {
+            moduleCache: { vue: Vue },
+            async getFile(url) {
+                const res = await fetch(url);
+                if (!res.ok) throw Object.assign(new Error(res.statusText + ' ' + url), { res });
+                return { getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text() }
+            },
+            addStyle(textContent) {
+                const style = Object.assign(document.createElement('style'), { textContent });
+                const ref = document.head.getElementsByTagName('style')[0] || null;
+                document.head.insertBefore(style, ref);
+            },
+        };
+
+        const app = Vue.createApp({
+            // Note: This points to Dashboard.vue instead of Auth.vue
+            components: {
+                'dashboard-app': Vue.defineAsyncComponent(() => loadModule('{% static "User_Dashboard.vue" %}', options))
+            },
+            template: '<dashboard-app></dashboard-app>'
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>

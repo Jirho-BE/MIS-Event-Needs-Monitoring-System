@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
 	path('api/', include('events.urls')),
@@ -9,4 +10,7 @@ urlpatterns = [
     path('api/', include('item.urls')),
     path('api/', include('needs.urls')),
     path('api/', include('event_needs.urls')),
+    path('', TemplateView.as_view(template_name='index.html'), name='home'),
+    path('admin-dashboard/', TemplateView.as_view(template_name='admin_dash.html'), name='admin-dashboard'),
+    path('dashboard/', TemplateView.as_view(template_name='user_dash.html'), name='dashboard'),
 ]
